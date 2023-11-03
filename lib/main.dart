@@ -30,13 +30,18 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  var addNoteController =TextEditingController();
+
+  void clearTextfield(){
+    addNoteController.clear();
+  }
 
   List<String> toDoList =[
     'Going for Game',
     'Paying Electricity Bills',
     'Having lunch with Friends',
   ];
-  var addNoteController =TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -181,8 +186,8 @@ class _MyHomePageState extends State<MyHomePage> {
                             onPressed: (){
                               toDoList.add(addNoteController.text.toString());
                               setState(() {
-
                               });
+                              clearTextfield();
                               Navigator.pop(context);
                             },
                             child: Text("Add")),
