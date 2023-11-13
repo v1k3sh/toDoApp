@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import 'EcomAppPage.dart';
+import 'container.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -14,10 +17,10 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: "To Do App",
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
         useMaterial3: true,
       ),
-      home: MyHomePage(),
+      home: myEcommApp(),
     );
   }
 }
@@ -64,6 +67,7 @@ class _MyHomePageState extends State<MyHomePage> {
           onTap: (){
             showModalBottomSheet(context: context, builder: (_){
               return Container(
+                margin: EdgeInsets.all(15),
                 height: 300,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(15),
@@ -97,6 +101,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 setState(() {
 
                                 });
+                                addNoteController.clear();
                                 Navigator.pop(context);
                               },
                               child: Text("update")),
@@ -114,39 +119,47 @@ class _MyHomePageState extends State<MyHomePage> {
               );
             });
           },
-          child: ListTile(
-            title: Text(toDoList[index]),
-            trailing: InkWell(
-              onTap: (){
+          child: Container(
+            decoration: BoxDecoration(
+              color: Colors.grey.shade400,
+              borderRadius: BorderRadius.circular(15),
+            ),
+            
+            margin: EdgeInsets.all(5),
+            child: ListTile(
+              title: Text(toDoList[index]),
+              trailing: InkWell(
+                onTap: (){
 
-              },
-                child: InkWell(
-                  onTap: (){
-                    showDialog(
-                        context: context, builder: (_){
-                          return AlertDialog(
-                            title: Text("Delete"),
-                            content: Text("Really Wants to Delete This Record..?"),
-                            actions: [
-                              TextButton(
-                                  onPressed:(){
-                                    toDoList.removeAt(index);
-                                    setState(() {
+                },
+                  child: InkWell(
+                    onTap: (){
+                      showDialog(
+                          context: context, builder: (_){
+                            return AlertDialog(
+                              title: Text("Delete"),
+                              content: Text("Really Wants to Delete This Record..?"),
+                              actions: [
+                                TextButton(
+                                    onPressed:(){
+                                      toDoList.removeAt(index);
+                                      setState(() {
 
-                                    });
-                                    Navigator.pop(context);
-                                  },
-                                  child: Text("Delete")),
-                              TextButton(
-                                  onPressed: (){
-                                    Navigator.pop(context);
-                                  },
-                                  child: Text("Cancel")),
-                            ],
-                          );
-                    });
-                  },
-                    child: Icon(Icons.delete,color: Colors.red,))),
+                                      });
+                                      Navigator.pop(context);
+                                    },
+                                    child: Text("Delete")),
+                                TextButton(
+                                    onPressed: (){
+                                      Navigator.pop(context);
+                                    },
+                                    child: Text("Cancel")),
+                              ],
+                            );
+                      });
+                    },
+                      child: Icon(Icons.delete,color: Colors.red,))),
+            ),
           ),
         );
       }),
@@ -154,52 +167,54 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Colors.blue,
         onPressed: (){
           showModalBottomSheet(context: context, builder: (_){
-            return Container(
-              height: 300,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(15),
-              color: Colors.blue.shade400,),
-              child: Padding(
-                padding: const EdgeInsets.all(15.0),
-                child: Column(
-                  children: [
-                    Text("Add Note",style: TextStyle(
-                      fontSize: 25,
-                    ),),
-                    SizedBox(height: 20,),
-                    TextField(
-                      controller: addNoteController,
-                      decoration: InputDecoration(
+            return SingleChildScrollView(
+              child: Container(
+                height: 300,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(15),
+                color: Colors.blue.shade400,),
+                child: Padding(
+                  padding: const EdgeInsets.all(15.0),
+                  child: Column(
+                    children: [
+                      Text("Add Note",style: TextStyle(
+                        fontSize: 25,
+                      ),),
+                      SizedBox(height: 20,),
+                      TextField(
+                        controller: addNoteController,
+                        decoration: InputDecoration(
 
-                        label: Text("Enter New Note.."),
-                        labelStyle: TextStyle(color: Colors.white),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(20),
+                          label: Text("Enter New Note.."),
+                          labelStyle: TextStyle(color: Colors.white),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
                         ),
                       ),
-                    ),
-                    SizedBox(height: 20,),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        ElevatedButton(
-                            onPressed: (){
-                              toDoList.add(addNoteController.text.toString());
-                              setState(() {
-                              });
-                              clearTextfield();
-                              Navigator.pop(context);
-                            },
-                            child: Text("Add")),
-                        SizedBox(width: 50,),
-                        ElevatedButton(
-                            onPressed: (){
-                              Navigator.pop(context);
-                            },
-                            child: Text("Cancel")),
-                      ],
-                    ),
-                  ],
+                      SizedBox(height: 20,),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          ElevatedButton(
+                              onPressed: (){
+                                toDoList.add(addNoteController.text.toString());
+                                setState(() {
+                                });
+                                clearTextfield();
+                                Navigator.pop(context);
+                              },
+                              child: Text("Add")),
+                          SizedBox(width: 50,),
+                          ElevatedButton(
+                              onPressed: (){
+                                Navigator.pop(context);
+                              },
+                              child: Text("Cancel")),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
             );
